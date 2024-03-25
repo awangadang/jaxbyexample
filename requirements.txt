@@ -1,0 +1,9 @@
+jax
+jaxlib
+gymnax
+distrax
+optax
+flax
+numpy
+brax
+chex
