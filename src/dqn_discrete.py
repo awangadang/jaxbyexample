@@ -1,7 +1,6 @@
 """
 Deep Q-learning for discrete action spaces.
 """
-import time
 
 import chex
 import jax
@@ -9,16 +8,13 @@ import jax.numpy as jnp
 from flax import linen as nn
 import optax
 import gymnax
-import argparse
 from flax.training.train_state import TrainState
 from distrax import EpsilonGreedy
-from typing import Sequence, NamedTuple, Any, Callable, List, Tuple
+from typing import Sequence, NamedTuple, Callable
 from chex import dataclass
 from gymnax.wrappers.purerl import FlattenObservationWrapper, LogWrapper
 import gymnax.environments.spaces as spaces
-import functools
 from flax.linen.initializers import he_normal, constant
-from jax.experimental import checkify
 from matplotlib import pyplot as plt
 
 
@@ -106,7 +102,6 @@ def buffer_record(buffer: ReplayBuffer, obs, action, reward, next_obs, done) -> 
 
 
 def buffer_sample(buffer: ReplayBuffer, batch_size: int, rng_key: chex.PRNGKey):
-    # checkify.check(buffer.size >= batch_size, "buffer size {} < batch size {}", buffer.size, batch_size)
     idx = jax.random.randint(rng_key, (batch_size,), 0, buffer.size)
     return Sample(buffer.state[idx], buffer.action[idx], buffer.reward[idx], buffer.next_state[idx], buffer.done[idx])
 
